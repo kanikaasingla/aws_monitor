@@ -1,0 +1,34 @@
+# Use root/example as user/password credentials
+version: '3.7'
+services:
+  db:
+    image: mysql
+    container_name: database
+    environment:
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: aws-monitor1
+      MYSQL_PASSWORD: random-pswd
+      MYSQL_ROOT_PASSWORD: abc-pswd
+    networks:
+      - app-network
+
+  aws-monitor:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+    environment:
+      MYSQL_HOST: database
+      MYSQL_PORT: 3306
+      MYSQL_USER: aws-monitor1
+      MYSQL_PASSWORD: random-pswd
+      MYSQL_DB: mydb
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+

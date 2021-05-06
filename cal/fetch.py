@@ -1,8 +1,13 @@
 import json
 import os
 import pymysql
+host = os.getenv("MYSQL_HOST")
+port = os.getenv("MYSQL_PORT")
+user = os.getenv("MYSQL_USER")
+passwd = os.getenv("MYSQL_PASSWORD")
+db = os.getenv("MYSQL_DB")
 
-file = os.path.abspath('staticfiles') + "/data.json"
+file = os.path.abspath('../staticfiles') + "/data.json"
 json_data = open(file).read()
 json_obj = json.loads(json_data)
 
@@ -17,7 +22,7 @@ def validate_string(val):
             return val
 
 
-con = pymysql.connect(host='localhost', port=3306, user='root', passwd='Radhikamehta@14', db='Data')
+con = pymysql.connect(host=host, port=port, user=user, passwd=passwd, db=db)
 cursor = con.cursor()
 
 # parse json data to SQL insert
